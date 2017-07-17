@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="page-header">
+          <h2>{{ list_title }}</h2>
+        </div>
+        <div class="page-body">
+          <div class="list-group">
+            {% for item in bib_list %}
+              <div class="list-group-item">
+                <a href='/info/{{ item['id'] }}/' class="lead">{{ item['bib_data'][0]['title'] }}</a>
+                <div>
+                  <span><a href="/journals/{{ item['bib_data'][0]['journal'] }}/"><i class="fa fa-book" aria-hidden="true"></i>{{ item['bib_data'][0]['journal'] }}</a></span>/<span><a href="/journals/{{ item['bib_data'][0]['journal'] }}/{{ item['bib_data'][0]['year'] }}/">{{ item['bib_data'][0]['year'] }}</a></span>
+                </div>
+                <nav class="nav" align='right'>
+                  <a class="nav-link" href='/pdf/{{ item['id'] }}.pdf'><i class="fa fa-file-pdf-o" aria-hidden="true"></i>PDF Preview</a>
+                  <a class="nav-link" href='/pdf-dl/{{ item['id'] }}.pdf'><i class="fa fa-download" aria-hidden="true"></i>PDF Download</a>
+                </nav>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block footer_javascript %}
+  <script>
+    var user = firebase.auth().currentUser;
+    if (user) {
+      // User is signed in.
+      console.log(user)
+    } else {
+      // No user is signed in.
+    }
+  </script>
+{% endblock %}

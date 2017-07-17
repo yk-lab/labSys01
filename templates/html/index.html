@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="page-header">
+          <h2>Recently</h2>
+        </div>
+        <div class="page-body">
+          {{ recently_list | pprint }}
+          <div class="list-group">
+            {% for item in recently_list %}
+              <div class="list-group-item">
+                <a href='/info/{{ item['id'] }}/' class="lead">{{ item['bib_data'][0]['title'] }}</a>
+                <div>
+                  <span><a href="/journals/{{ item['bib_data'][0]['journal']|urlencode }}/"><i class="fa fa-book" aria-hidden="true"></i>{{ item['bib_data'][0]['journal'] }}</a></span>/<span><a href="/journals/{{ item['bib_data'][0]['journal'] }}/{{ item['bib_data'][0]['year'] }}/">{{ item['bib_data'][0]['year'] }}</a></span>
+                  <span><a href="/date/{{item['slide_published_date']}}/"><i class="fa fa-calendar" aria-hidden="true"></i>{{ item['slide_published_date'] }}</a></span>
+                </div>
+                <nav class="nav" align='right'>
+                  <a class="nav-link" href='/pdf/{{ item['id'] }}.pdf'><i class="fa fa-file-pdf-o" aria-hidden="true"></i>PDF Preview</a>
+                  <a class="nav-link" href='/pdf-dl/{{ item['id'] }}.pdf'><i class="fa fa-download" aria-hidden="true"></i>PDF Download</a>
+                </nav>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <div class="page-header">
+          <h2>Last Upload</h2>
+        </div>
+        <div class="page-body">
+          <div class="list-group">
+            {% for item in bib_list %}
+              <div class="list-group-item">
+                <a href='/info/{{ item['id'] }}/' class="lead">{{ item['bib_data'][0]['title'] }}</a>
+                <div>
+                  <span><a href="/journals/{{ item['bib_data'][0]['journal']|urlencode }}/"><i class="fa fa-book" aria-hidden="true"></i>{{ item['bib_data'][0]['journal'] }}</a></span>/<span><a href="/journals/{{ item['bib_data'][0]['journal'] }}/{{ item['bib_data'][0]['year'] }}/">{{ item['bib_data'][0]['year'] }}</a></span>
+                  <span><a href="/date/{{item['slide_published_date']}}/"><i class="fa fa-calendar" aria-hidden="true"></i>{{ item['slide_published_date'] }}</a></span>
+                </div>
+                <nav class="nav" align='right'>
+                  <a class="nav-link" href='/pdf/{{ item['id'] }}.pdf'><i class="fa fa-file-pdf-o" aria-hidden="true"></i>PDF Preview</a>
+                  <a class="nav-link" href='/pdf-dl/{{ item['id'] }}.pdf'><i class="fa fa-download" aria-hidden="true"></i>PDF Download</a>
+                </nav>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block footer_javascript %}
+{% endblock %}

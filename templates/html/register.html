@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="page-header">
+          <h2>Register</h2>
+        </div>
+        <div class="page-body">
+          <input type="text" name="email" id="register_form_email"/>
+          <input type="password" name="password" id="register_form_password"/>
+          <button id="register_form_button">Register</button>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block footer_javascript %}
+<script>
+  $('#register_form_button').on('click', function(){
+    var email = $('#register_form_email').val()
+    var password = $('#register_form_password').val()
+
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(function(firebaseUser){
+        window.location.href = '/';
+      }).catch(function(error) {
+        // TODO: Error処理
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // ...
+      });
+  });
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      window.location.href = '/';
+    }
+  });
+
+</script>
+{% endblock %}

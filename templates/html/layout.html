@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <style type="text/css">
+body { /*padding-top: 80px;*/ }
+  @media ( min-width: 768px ) {
+    #banner {
+      min-height: 300px;
+      border-bottom: none;
+    }
+    .bs-docs-section {
+      margin-top: 8em;
+    }
+    .bs-component {
+      position: relative;
+    }
+    .bs-component .modal {
+      position: relative;
+      top: auto;
+      right: auto;
+      left: auto;
+      bottom: auto;
+      z-index: 1;
+      display: block;
+    }
+    .bs-component .modal-dialog {
+      width: 90%;
+    }
+    .bs-component .popover {
+      position: relative;
+      display: inline-block;
+      width: 220px;
+      margin: 20px;
+    }
+    .nav-tabs {
+      margin-bottom: 15px;
+    }
+    .progress {
+      margin-bottom: 10px;
+    }
+  }
+  </style>
+
+  <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="jumbotron">
+        <h1>（仮）</h1>
+      </div>
+    </div>
+  </div>
+  <nav class="nav">
+    <a class="nav-link" href="/"><i class="fa fa-home" aria-hidden="true"></i>Home</a>
+    <a class="nav-link" href="/journals/"><i class="fa fa-book" aria-hidden="true"></i>Journals</a>
+    <a class="nav-link" href="/"><i class="fa fa-user" aria-hidden="true"></i>Accounts</a>
+    <a class="nav-link" href="/date/"><i class="fa fa-calendar" aria-hidden="true"></i>Date</a>
+  </nav>
+  <div class="d-inline-flex flex-row-reverse">
+    <nav class="nav">
+      <a class="nav-link logged-out" href="/register/"><i class="fa fa-user-plus" aria-hidden="true"></i>Sign Up</a>
+      <a class="nav-link logged-out" href="/login/"><i class="fa fa-sign-in" aria-hidden="true"></i>Log In</a>
+      <a class="nav-link logged-in" href="#" onclick="firebase.auth().signOut().then(function() {
+            window.location.href = '/';
+          }, function(error) {
+            alert(error);
+          });return false;" class="logged"><i class="fa fa-sign-out" aria-hidden="true"></i>Log Out</a>
+      <a class="nav-link logged-in" href="/upload/"><i class="fa fa-upload" aria-hidden="true"></i>Upload</a>
+    </nav>
+  </div>
+
+  {% block content %}{% endblock %}
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.1.1/firebase.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyDLEXmRt6-Eg8TU0iVSiZyRrf98EX4uAc4",
+      authDomain: "bibliosurveysystem.firebaseapp.com",
+      databaseURL: "https://bibliosurveysystem.firebaseio.com",
+      projectId: "bibliosurveysystem",
+      storageBucket: "bibliosurveysystem.appspot.com",
+      messagingSenderId: "18780939784"
+    };
+    firebase.initializeApp(config);
+    {% block firebase_javascript %}{% endblock %}
+  </script>
+  <script>
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      $('.logged-out').hide();
+      var name = user.displayName;
+      /* If the provider gives a display name, use the name for the
+      personal welcome message. Otherwise, use the user's email. */
+      var welcomeName = name ? name : user.email;
+      user.getIdToken().then(function(idToken) {
+        userIdToken = idToken;
+        $('#user').text(welcomeName);
+        $('.logged-in').show();
+      });
+    } else {
+      $('.logged-in').hide();
+      $('.logged-out').show();
+    }
+  });
+  </script>
+  {% block footer_javascript %}{% endblock %}
+</body>
+</html>
