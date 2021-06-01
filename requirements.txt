@@ -29,4 +29,4 @@ requests==2.17.3
 requests-toolbelt==0.7.0
 rsa==3.4.2
 six==1.10.0
-urllib3==1.21.1
+urllib3==1.26.5
